@@ -5,40 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AR Step Around Bogor</title>
   <style>
+    /* Styling splash screen */
     body {
-      margin: 0; padding:0;
+      margin: 0; padding: 0;
       height: 100vh;
       display: flex;
-      justify-content: center; 
+      justify-content: center;
       align-items: center;
       background: #4CAF50;
       font-family: Arial, sans-serif;
+      color: white;
     }
     .container {
-      text-align: center;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.6);
       padding: 40px 30px;
       border-radius: 12px;
-      color: white;
-      width: 90%;
+      text-align: center;
       max-width: 400px;
+      width: 90%;
     }
     .logo {
-      width: 200px;
+      width: 180px;
       margin-bottom: 30px;
     }
     button {
       margin-top: 25px;
       padding: 15px 30px;
-      background-color: #ff982f;
+      background-color: #ff7f27;
       border: none;
       border-radius: 8px;
       color: white;
       font-size: 18px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
     }
     button:hover {
-      background-color: #e57c00;
+      background-color: #cc660b;
     }
   </style>
 </head>
@@ -46,16 +48,17 @@
   <div class="container">
     <img src="assets/logo/logo-step-around-bogor.jpeg" alt="Logo Step Around Bogor" class="logo" />
     <h1>Papan Petunjuk</h1>
-    <p>Selamat datang di AR Step Around Bogor! <br />Scan logo destinasi untuk eksplorasi virtual Kebun Raya Bogor.</p>
+    <p>Selamat datang di AR Step Around Bogor!<br />Scan logo destinasi untuk eksplorasi virtual Kebun Raya Bogor.</p>
     <button id="start-ar">Mulai AR</button>
   </div>
 
   <script>
+    // Tombol mulai AR mengarahkan ke halaman AR
     document.getElementById('start-ar').addEventListener('click', () => {
       window.location.href = 'ar.html';
     });
 
-    // Auto redirect after 3 second
+    // Auto redirect ke halaman AR setelah 3 detik
     setTimeout(() => {
       window.location.href = 'ar.html';
     }, 3000);
