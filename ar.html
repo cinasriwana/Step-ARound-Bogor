@@ -135,54 +135,52 @@
         overflow-y: auto;
         box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
         font-size: 20px; /* font diperbesar */
-    }
-    .info-panel.active {
-        /* Hilangkan translateY supaya panel selalu visible */
-    }
-    .info-panel .panel-title {
-        font-size: 32px; /* perbesar */
-        font-weight: 700;
-        margin-bottom: 8px;
-        color: #ffb347;
-    }
-    .info-panel .panel-subtitle {
-        font-size: 22px;
-        font-weight: 600;
-        margin-bottom: 15px;
-        color: rgba(255,255,255,0.85);
-    }
-    .info-panel .panel-description {
-        font-size: 18px;
-        line-height: 1.7;
-        margin-bottom: 20px;
-        color: rgba(255,255,255,0.95);
-    }
-    /* scroll container gambar tambahan */
-    .info-panel .image-container-scroll {
-        display: flex;
-        gap: 15px;
-        overflow-x: auto;
-        padding-bottom: 10px;
-    }
-    .info-panel .image-container-scroll::-webkit-scrollbar {
-        height: 8px;
-    }
-    .info-panel .image-container-scroll::-webkit-scrollbar-thumb {
-        background: rgba(255, 140, 0, 0.6);
-        border-radius: 10px;
-    }
-    .info-panel .image-container-scroll img {
-        flex-shrink: 0;
-        width: 48%;
-        height: auto;
-        border-radius: 12px;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-        cursor: pointer;
-        transition: transform 0.3s ease;
-    }
-    .info-panel .image-container-scroll img:hover {
-        transform: scale(1.05);
-    }
+        }
+
+        .info-panel .panel-title {
+            font-size: 32px; /* perbesar */
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #ffb347;
+        }
+        .info-panel .panel-subtitle {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: rgba(255,255,255,0.85);
+        }
+        .info-panel .panel-description {
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.95);
+        }
+        /* scroll container gambar tambahan */
+        .info-panel .image-container-scroll {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        .info-panel .image-container-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+        .info-panel .image-container-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 140, 0, 0.6);
+            border-radius: 10px;
+        }
+        .info-panel .image-container-scroll img {
+            flex-shrink: 0;
+            width: 48%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .info-panel .image-container-scroll img:hover {
+            transform: scale(1.05);
+        }
 
         /* Marker List */
         .marker-list {
@@ -684,18 +682,23 @@
             document.getElementById('panelSubtitle').textContent = dest.subtitle;
             document.getElementById('panelDescription').textContent = dest.description;
 
-            // Update gambar utama
-            let mainImg = document.getElementById('panelImage');
+            // Gambar utama tetap berasal dari data image, jika ada
+            const mainImg = document.getElementById('panelImage');
+            if(dest.image) {
             mainImg.src = dest.image;
             mainImg.alt = dest.title;
+            } else {
+            mainImg.src = ""; // atau placeholder kosong
+            mainImg.alt = "";
+            }
 
             // Kosongkan kontainer gambar tambahan
             const additionalImagesContainer = document.getElementById('additionalImages');
             additionalImagesContainer.innerHTML = '';
 
-            // Tampilkan maksimal 2 gambar tambahan
+            // Tampilkan maksimal 2 gambar tambahan (jika tersedia)
             if (dest.additionalImages && dest.additionalImages.length > 0) {
-                dest.additionalImages.slice(0,2).forEach(src => {
+                dest.additionalImages.slice(0, 2).forEach(src => {
                     const img = document.createElement('img');
                     img.src = src;
                     img.alt = dest.title + ' tambahan';
@@ -703,11 +706,10 @@
                 });
             }
 
-            // Tampilkan panel info dan sembunyikan instruksi scan
+            // Tampilkan panel info, sembunyikan instruksi scan
             document.getElementById('infoPanel').classList.add('active');
             document.getElementById('scanInstruction').classList.add('hidden');
 
-            // Update currentMarker
             currentMarker = destinationKey;
         }
 
@@ -735,7 +737,7 @@
             }
         }
 
-        // ======= EVENT HANDLER MARKER =======
+        // ======= EVENT LISTENER MARKER =======
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 AR Step Around Bogor - Initializing...');
             const markers = [
@@ -751,6 +753,8 @@
 
                 if(markerEl){
                     markerEl.addEventListener('markerFound', function(){
+                        if(currentMarker === markerInfo.key) return; // jika marker yang sama, abaikan
+
                         console.log('✅ Marker Found:', markerInfo.key);
 
                         // Update UI
