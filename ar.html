@@ -121,112 +121,68 @@
 
         /* Info Panel */
         .info-panel {
-            position: fixed;
-            bottom: 80px; /* dinaikkan agar tidak terlalu bawah */
-            left: 10px;
-            right: 10px;
-            background: linear-gradient(135deg, rgba(45, 90, 39, 0.98), rgba(26, 58, 21, 0.98));
-            color: white;
-            padding: 30px 25px;
-            z-index: 9999;
-            transform: translateY(100%);
-            transition: transform 0.4s ease;
-            border-radius: 25px 25px 0 0;
-            max-height: 50vh;
-            overflow-y: auto; /* enable vertical scroll */
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
-            font-size: 18px;
-        }
-
-        .info-panel.active {
-            transform: translateY(0);
-        }
-
-        .info-panel .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 20px;
-            transition: all 0.3s;
-        }
-
-        .info-panel .close-btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: rotate(90deg);
-        }
-
-        .info-panel h2 {
-            font-size: 26px; /* diperbesar */
-            margin-bottom: 8px;
-            color: #ffb347;
-            font-weight: 700;
-        }
-
-        .info-panel .subtitle {
-            font-size: 20px; /* diperbesar */
-            color: rgba(255,255,255,0.85);
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .info-panel .description {
-            font-size: 16px; /* diperbesar */
-            line-height: 1.8;
-            color: rgba(255,255,255,0.95);
-            margin-bottom: 20px;
-        }
-
-        .info-panel .image-container-main {
-            border-radius: 15px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-        }
-
-        .info-panel .image-container-main img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 15px;
-        }
-
-        /* Container tambah 2 gambar scroll horizontal */
-        .info-panel .image-container-scroll {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-        }
-
-        .info-panel .image-container-scroll::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .info-panel .image-container-scroll::-webkit-scrollbar-thumb {
-            background: rgba(255, 140, 0, 0.6);
-            border-radius: 10px;
-        }
-
-        .info-panel .image-container-scroll img {
-            flex-shrink: 0;
-            width: 48%; /* 2 gambar berdampingan */
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .info-panel .image-container-scroll img:hover {
-            transform: scale(1.05);
-        }
+        position: fixed;
+        bottom: 140px; /* dinaikkan dari 80px menjadi 140px supaya lebih ke atas */
+        left: 10px;
+        right: 10px;
+        background: linear-gradient(135deg, rgba(45, 90, 39, 0.98), rgba(26, 58, 21, 0.98));
+        color: white;
+        padding: 30px 25px;
+        z-index: 9999;
+        transform: translateY(0); /* agar selalu tampil */
+        border-radius: 25px 25px 0 0;
+        max-height: 50vh;
+        overflow-y: auto;
+        box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+        font-size: 20px; /* font diperbesar */
+    }
+    .info-panel.active {
+        /* Hilangkan translateY supaya panel selalu visible */
+    }
+    .info-panel .panel-title {
+        font-size: 32px; /* perbesar */
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #ffb347;
+    }
+    .info-panel .panel-subtitle {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: rgba(255,255,255,0.85);
+    }
+    .info-panel .panel-description {
+        font-size: 18px;
+        line-height: 1.7;
+        margin-bottom: 20px;
+        color: rgba(255,255,255,0.95);
+    }
+    /* scroll container gambar tambahan */
+    .info-panel .image-container-scroll {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+    .info-panel .image-container-scroll::-webkit-scrollbar {
+        height: 8px;
+    }
+    .info-panel .image-container-scroll::-webkit-scrollbar-thumb {
+        background: rgba(255, 140, 0, 0.6);
+        border-radius: 10px;
+    }
+    .info-panel .image-container-scroll img {
+        flex-shrink: 0;
+        width: 48%;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+    .info-panel .image-container-scroll img:hover {
+        transform: scale(1.05);
+    }
 
         /* Marker List */
         .marker-list {
@@ -669,7 +625,6 @@
                 title: "TAMAN MEXICO",
                 subtitle: "Mexican Garden",
                 description: "Taman Meksiko Bogor di Kebun Raya Bogor menampilkan lebih dari 100 jenis tanaman gurun seperti kaktus, agave, dan sukulen dari Amerika Tengah dan Selatan.",
-                image: "assets/image/fotomexico1.jpeg",
                 additionalImages: [
                     "assets/image/fotomexico2.jpeg"
                 ]
@@ -678,7 +633,6 @@
                 title: "TAMAN NEPENTHES",
                 subtitle: "Nepenthes Garden",
                 description: "Taman Nepenthes Kebun Raya Bogor menampilkan berbagai jenis kantong semar (Nepenthes), yaitu tanaman karnivora unik yang hidup di lingkungan lembap. Taman ini cocok untuk wisata edukatif karena pengunjung bisa belajar tentang cara tumbuhan memerangkap serangga.",
-                image: "assets/image/nepenthes1.webp",
                 additionalImages: [
                     "assets/image/nepenthes2.jpeg",
                     "assets/image/nepenthes3.jpg"
@@ -688,7 +642,6 @@
                 title: "GRIYA ANGGREK",
                 subtitle: "Orchid House",
                 description: "Griya Anggrek Kebun Raya Bogor menampilkan beragam koleksi anggrek lokal dan langka Indonesia yang dibudidayakan di rumah kaca. Tempat ini cocok untuk wisata edukatif dan menikmati keindahan anggrek dengan suasana yang tertata dan tenang.",
-                image: "assets/image/anggrek1.webp",
                 additionalImages: [
                     "assets/image/anggrek2.jpg",
                     "assets/image/anggrek3.webp"
@@ -698,7 +651,6 @@
                 title: "ISTANA BOGOR",
                 subtitle: "Bogor Presidential Palace",
                 description: "Istana Bogor merupakan istana kepresidenan bersejarah yang berada di kawasan Kebun Raya Bogor. Istana ini memiliki arsitektur klasik peninggalan kolonial dan halaman luas yang dihuni rusa, menjadikannya salah satu ikon sejarah dan budaya Kota Bogor.",
-                image: "assets/image/istanabogor1.jpeg",
                 additionalImages: [
                     "assets/image/istanabogor2.jpg",
                     "assets/image/istanabogor3.jpg"
@@ -708,7 +660,6 @@
                 title: "TAMAN AKUATIK",
                 subtitle: "Aquatic Garden",
                 description: "Taman Akuatik Bogor di Kebun Raya Bogor menampilkan beragam tanaman air seperti teratai, lotus, dan tumbuhan rawa dari berbagai wilayah. Suasananya tenang dan asri, cocok untuk wisata edukatif, menikmati keindahan tanaman akuatik, sekaligus spot foto alami.",
-                image: "assets/image/fotoakuatik1.jpeg",
                 additionalImages: [
                     "assets/image/fotoakuatik2.jpg",
                     "assets/image/fotoakuatik3.jpg"
@@ -716,16 +667,15 @@
             }
         };
 
-        // ========== VARIABEL GLOBAL ==========
+        // ======= VARIABEL GLOBAL =======
         let currentMarker = null;
 
-        // ========== FUNGSI NAVIGASI ==========
+        // ======= NAVIGASI =======
         function goBack() {
             window.location.href = 'index.html';
         }
 
-        // ========== FUNGSI PANEL INFO ==========
-        // Tambahkan dua foto tambahan ke container scroll
+        // ======= TAMPILKAN PANEL INFO =======
         function showPanel(destinationKey) {
             const dest = destinations[destinationKey];
             if (!dest) return;
@@ -733,33 +683,47 @@
             document.getElementById('panelTitle').textContent = dest.title;
             document.getElementById('panelSubtitle').textContent = dest.subtitle;
             document.getElementById('panelDescription').textContent = dest.description;
-            document.getElementById('panelImage').src = dest.image;
-            document.getElementById('panelImage').alt = dest.title;
 
+            // Update gambar utama
+            let mainImg = document.getElementById('panelImage');
+            mainImg.src = dest.image;
+            mainImg.alt = dest.title;
+
+            // Kosongkan kontainer gambar tambahan
             const additionalImagesContainer = document.getElementById('additionalImages');
-
-            // Kosongkan dulu isi container gambar tambahan
             additionalImagesContainer.innerHTML = '';
 
-            // Kita asumsikan Anda menambahkan array 'additionalImages' di data destinations
-            if(dest.additionalImages && dest.additionalImages.length > 0) {
-                dest.additionalImages.forEach(imgSrc => {
+            // Tampilkan maksimal 2 gambar tambahan
+            if (dest.additionalImages && dest.additionalImages.length > 0) {
+                dest.additionalImages.slice(0,2).forEach(src => {
                     const img = document.createElement('img');
-                    img.src = imgSrc;
-                    img.alt = dest.title + ' photo';
+                    img.src = src;
+                    img.alt = dest.title + ' tambahan';
                     additionalImagesContainer.appendChild(img);
                 });
             }
 
+            // Tampilkan panel info dan sembunyikan instruksi scan
             document.getElementById('infoPanel').classList.add('active');
             document.getElementById('scanInstruction').classList.add('hidden');
+
+            // Update currentMarker
+            currentMarker = destinationKey;
         }
 
-        // ========== FUNGSI UPDATE STATUS ==========
+        // ======= TUTUP PANEL INFO =======
+        function closePanel() {
+            document.getElementById('infoPanel').classList.remove('active');
+            document.getElementById('scanInstruction').classList.remove('hidden');
+            currentMarker = null;
+        }
+
+        // ======= UPDATE STATUS =======
         function updateStatus(text) {
             document.getElementById('statusText').textContent = text;
         }
 
+        // ======= SET STATUS MARKER DI LIST =======
         function setMarkerStatus(markerId, found) {
             const statusEl = document.getElementById('status-' + markerId);
             if (statusEl) {
@@ -771,11 +735,9 @@
             }
         }
 
-        // ========== EVENT LISTENER MARKER ==========
+        // ======= EVENT HANDLER MARKER =======
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 AR Step Around Bogor - Initializing...');
-
-            // Daftar marker dan ID-nya
             const markers = [
                 { id: 'marker-mexico', key: 'mexico' },
                 { id: 'marker-nepenthes', key: 'nepenthes' },
@@ -784,15 +746,12 @@
                 { id: 'marker-akuatik', key: 'akuatik' }
             ];
 
-            // Setup event listener untuk setiap marker
-            markers.forEach(function(markerInfo) {
+            markers.forEach(function(markerInfo){
                 const markerEl = document.getElementById(markerInfo.id);
 
-                if (markerEl) {
-                    // Event: Marker ditemukan
-                    markerEl.addEventListener('markerFound', function() {
+                if(markerEl){
+                    markerEl.addEventListener('markerFound', function(){
                         console.log('✅ Marker Found:', markerInfo.key);
-                        currentMarker = markerInfo.key;
 
                         // Update UI
                         updateStatus('Marker terdeteksi: ' + destinations[markerInfo.key].title);
@@ -803,47 +762,29 @@
                         document.getElementById('scanInstruction').classList.add('hidden');
                     });
 
-                    // Event: Marker hilang
-                    markerEl.addEventListener('markerLost', function() {
+                    // Jangan hapus panel saat marker hilang
+                    // Jadi event 'markerLost' diabaikan supaya info tetap stay
+                    /*
+                    markerEl.addEventListener('markerLost', function(){
                         console.log('❌ Marker Lost:', markerInfo.key);
 
-                        // Update UI
                         updateStatus('Kamera aktif - Siap scan');
                         setMarkerStatus(markerInfo.key, false);
-
-                        // Tampilkan kembali instruksi scan
                         document.getElementById('scanInstruction').classList.remove('hidden');
-
                         currentMarker = null;
-                    });
 
-                    console.log('📍 Marker registered:', markerInfo.id);
+                        // Jika ingin agar panel hilang juga saat marker hilang, hapus komentar baris di bawah
+                        // closePanel();
+                    });
+                    */
                 } else {
-                    console.warn('⚠️ Marker element not found:', markerInfo.id);
+                    console.warn('⚠️ Marker element not found: ', markerInfo.id);
                 }
             });
-
             console.log('✅ AR Scene Ready!');
             updateStatus('Kamera aktif - Siap scan');
         });
 
-        // ========== ERROR HANDLING ==========
-        window.addEventListener('error', function(e) {
-            console.error('❌ Error:', e.message);
-        });
-
-        // ========== SCENE LOADED ==========
-        const scene = document.querySelector('a-scene');
-        if (scene) {
-            scene.addEventListener('loaded', function() {
-                console.log('✅ A-Frame Scene Loaded');
-            });
-
-            scene.addEventListener('arjs-video-loaded', function() {
-                console.log('✅ AR.js Video Loaded');
-                updateStatus('Kamera aktif - Siap scan');
-            });
-        }
     </script>
 </body>
 </html>
