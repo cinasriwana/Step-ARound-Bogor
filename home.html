@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step Around Bogor - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #2d5a27, #1a3a15);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .user-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            background: white;
+            border-radius: 25px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 14px;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            background: white;
+            padding: 15px 20px;
+            gap: 10px;
+            overflow-x: auto;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #2d5a27;
+            color: white;
+            border-color: #2d5a27;
+        }
+
+        /* Content Sections */
+        .content {
+            padding: 20px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Maps Section */
+        .map-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #2d5a27;
+            font-size: 18px;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-placeholder::before {
+            content: '📍';
+            font-size: 60px;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .location-info {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border-left: 4px solid #ff8c00;
+        }
+
+        .location-info h3 {
+            font-size: 16px;
+            color: #2d5a27;
+            margin-bottom: 5px;
+        }
+
+        .location-info p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .distance-badge {
+            display: inline-block;
+            background: #ff8c00;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        /* Destinations Grid */
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+        }
+
+        .destination-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .destination-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #2d5a27, #4a7c44);
+        }
+
+        .destination-info {
+            padding: 12px;
+        }
+
+        .destination-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d5a27;
+            margin-bottom: 5px;
+        }
+
+        .destination-location {
+            font-size: 11px;
+            color: #999;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        /* Rating Section */
+        .rating-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .rating-container h2 {
+            color: #2d5a27;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            font-size: 40px;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .star {
+            color: #ddd;
+            transition: color 0.2s;
+        }
+
+        .star.active {
+            color: #ffd700;
+        }
+
+        .rating-textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+
+        .submit-rating {
+            background: linear-gradient(135deg, #ff8c00, #ff6600);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-rating:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+        }
+
+        /* AR Button */
+        .ar-button {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff8c00, #ff6600);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 5px 20px rgba(255, 140, 0, 0.4);
+            cursor: pointer;
+            z-index: 999;
+            transition: all 0.3s;
+            animation: pulse-ar 2s infinite;
+        }
+
+        @keyframes pulse-ar {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .ar-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(255, 140, 0, 0.6);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 20px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+            border: none;
+            background: none;
+            font-size: 12px;
+        }
+
+        .nav-item.active {
+            color: #2d5a27;
+        }
+
+        .nav-item span:first-child {
+            font-size: 24px;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .preview-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .preview-title {
+            font-size: 18px;
+            color: #2d5a27;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #2d5a27;
+        }
+
+        /* About Section Styles */
+        .about-section {
+            padding: 20px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 12px;
+            border-left: 4px solid #2d5a27;
+        }
+
+        .about-title {
+            font-size: 18px;
+            color: #2d5a27;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .about-text {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .about-text strong {
+            color: #2d5a27;
+            font-weight: 600;
+        }
+
+        .university {
+            display: inline-block;
+            margin-top: 5px;
+            color: #ff8c00;
+            font-weight: 500;
+        }
+
+        .team-members {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .team-members p {
+            font-size: 13px;
+            font-weight: 600;
+            color: #2d5a27;
+            margin-bottom: 10px;
+        }
+
+        .team-members ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .team-members li {
+            font-size: 12px;
+            color: #555;
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .team-members li::before {
+            content: "👤";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Copyright */
+        .copyright {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .copyright p {
+            font-size: 11px;
+            color: #999;
+            margin: 3px 0;
+        }
+
+        .copyright p:first-child {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #2d5a27;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .preview-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-top">
+            <div>
+                <h1>Step Around Bogor</h1>
+                <p class="header-subtitle">Kebun Raya Bogor Virtual Tour</p>
+            </div>
+            <div class="user-icon">👤</div>
+        </div>
+        <div class="search-bar">
+            <span>🔍</span>
+            <input type="text" placeholder="Cari destinasi...">
+        </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="showSection('home', this)">Home</button>
+        <button class="tab-btn" onclick="showSection('maps', this)">Maps</button>
+        <button class="tab-btn" onclick="showSection('destinations', this)">Destinations</button>
+        <button class="tab-btn" onclick="showSection('rate', this)">Rate</button>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <!-- Home Section -->
+        <div class="section active" id="home">
+            <div class="map-container">
+                <h2 style="margin-bottom: 15px; color: #2d5a27;">📍 Your Location</h2>
+                <div class="map-placeholder">
+                    <span>YOU ARE HERE</span>
+                    <p style="margin-top: 10px; font-size: 14px;">Kebun Raya Bogor</p>
+                </div>
+                <div class="location-info">
+                    <h3>Kebun Raya Bogor</h3>
+                    <p>Jl. Ir. H. Juanda No.13, Paledang, Kecamatan Bogor Tengah, Kota Bogor, Jawa Barat</p>
+                    <span class="distance-badge">📍 62 km to Destinations</span>
+                </div>
+            </div>
+
+            <h2 style="margin-bottom: 15px; color: #2d5a27;">🌟 Popular Destinations</h2>
+            <div class="destinations-grid">
+                <div class="destination-card" onclick="goToDestination('taman-meksiko')">
+                    <img src="assets/image/fotomexico1.jpeg" alt="Taman Meksiko" class="destination-image" onerror="this.style.background='linear-gradient(135deg, #2d5a27, #4a7c44)'">
+                    <div class="destination-info">
+                        <div class="destination-name">Taman Meksiko</div>
+                        <div class="destination-location">📍 Kebun Raya Bogor</div>
+                    </div>
+                </div>
+
+                <div class="destination-card" onclick="goToDestination('griya-anggrek')">
+                    <img src="assets/image/anggrek1.webp" alt="Griya Anggrek" class="destination-image" onerror="this.style.background='linear-gradient(135deg, #2d5a27, #4a7c44)'">
+                    <div class="destination-info">
+                        <div class="destination-name">Griya Anggrek</div>
+                        <div class="destination-location">📍 Kebun Raya Bogor</div>
+                    </div>
+                </div>
+
+                <div class="destination-card" onclick="goToDestination('istana-bogor')">
+                    <img src="assets/image/istanabogor1.jpeg" alt="Istana Bogor" class="destination-image" onerror="this.style.background='linear-gradient(135deg, #2d5a27, #4a7c44)'">
+                    <div class="destination-info">
+                        <div class="destination-name">Istana Bogor</div>
+                        <div class="destination-location">📍 Kebun Raya Bogor</div>
+                    </div>
+                </div>
+
+                <div class="destination-card" onclick="goToDestination('taman-akuatik')">
+                    <img src="assets/image/fotoakuatik1.jpeg" alt="Taman Akuatik" class="destination-image" onerror="this.style.background='linear-gradient(135deg, #2d5a27, #4a7c44)'">
+                    <div class="destination-info">
+                        <div class="destination-name">Taman Akuatik</div>
+                        <div class="destination-location">📍 Kebun Raya Bogor</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Maps Section -->
+        <div class="section" id="maps">
+            <div class="map-container">
+                <h2 style="margin-bottom: 15px; color: #2d5a27;">🗺️ Interactive Map</h2>
+                <div class="map-placeholder">
+                    <span>MAP VIEW</span>
+                    <p style="margin-top: 10px; font-size: 14px;">Explore destinations</p>
+                </div>
+                <div class="location-info">
+                    <h3>Navigation Guide</h3>
+                    <p>Gunakan peta untuk menemukan lokasi destinasi. Klik marker untuk melihat detail dan arahkan kamera AR untuk pengalaman interaktif.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Destinations Section -->
+        <div class="section" id="destinations">
+            <h2 style="margin-bottom: 15px; color: #2d5a27;">🌿 All Destinations</h2>
+            <div class="destinations-grid">
+                <div class="destination-card" onclick="goToDestination('taman-meksiko')">
+                    <img src="assets/image/fotomexico1.jpeg" alt="Taman Meksiko" class="destination-image" onerror="this.style.background='linear-gradient(135deg, #2d5a27, #4a7c44)'">
+                    <div class="destination-info">
+                        <div class="destination-name">Taman Meksiko</div>
+                        <div class="destination-location">📍 Kebun Raya Bogor</div>
+                    </div>
+                </div>
+
+                <div class="destination-card" onclick="goToDestination('taman-nepenthes')">
+                    <img src="assets/image/nepenthes1.webp" alt="Taman Nepenthes" class="destination-image" onerror="this.style.background='linear-gradient(135deg, #2d5a27, #4a7c44)'">
+                    <div class="destination-info">
+                        <div class="destination-name">Taman Nepenthes</div>
+                        <div class="destination-location">📍 Kebun Raya Bogor</div>
+                    </div>
+                </div>
+
+                <div class="destination-card" onclick="goToDestination('griya-anggrek')">
+                    <img src="assets/image/anggrek1.webp" alt="Griya Anggrek" class="destination-image" onerror="this.style.background='linear-gradient(135deg, #2d5a27, #4a7c44)'">
+                    <div class="destination-info">
+                        <div class="destination-name">Griya Anggrek</div>
+                        <div class="destination-location">📍 Kebun Raya Bogor</div>
+                    </div>
+                </div>
+
+                <div class="destination-card" onclick="goToDestination('istana-bogor')">
+                    <img src="assets/image/istanabogor1.jpeg" alt="Istana Bogor" class="destination-image" onerror="this.style.background='linear-gradient(135deg, #2d5a27, #4a7c44)'">
+                    <div class="destination-info">
+                        <div class="destination-name">Istana Bogor</div>
+                        <div class="destination-location">📍 Kebun Raya Bogor</div>
+                    </div>
+                </div>
+
+                <div class="destination-card" onclick="goToDestination('taman-akuatik')">
+                    <img src="assets/image/fotoakuatik1.jpeg" alt="Taman Akuatik" class="destination-image" onerror="this.style.background='linear-gradient(135deg, #2d5a27, #4a7c44)'">
+                    <div class="destination-info">
+                        <div class="destination-name">Taman Akuatik</div>
+                        <div class="destination-location">📍 Kebun Raya Bogor</div>
+                    </div>
+                </div>
+
+                <div class="destination-card" onclick="goToDestination('museum-zoologi')">
+                    <img src="assets/image/zoologi1.jpg" alt="Taman Akuatik" class="destination-image" onerror="this.style.background='linear-gradient(135deg, #2d5a27, #4a7c44)'">
+                    <div class="destination-info">
+                        <div class="destination-name">Museum Zoologi</div>
+                        <div class="destination-location">📍 Kebun Raya Bogor</div>
+                    </div>
+                </div>
+
+                <div class="destination-card" onclick="goToDestination('taman-soedjana-kassan')">
+                    <img src="assets/image/soedjanakassan1.jpg" alt="Taman Soedjana Kassan" class="destination-image" onerror="this.style.background='linear-gradient(135deg, #2d5a27, #4a7c44)'">
+                    <div class="destination-info">
+                        <div class="destination-name">Taman Soedjana Kassan</div>
+                        <div class="destination-location">📍 Kebun Raya Bogor</div>
+                    </div>
+                </div>
+
+                <div class="destination-card" onclick="goToDestination('tugu-reinwardt')">
+                    <img src="assets/image/reinwardt1.webp" alt="Tugu Reinwardt" class="destination-image" onerror="this.style.background='linear-gradient(135deg, #2d5a27, #4a7c44)'">
+                    <div class="destination-info">
+                        <div class="destination-name">Tugu Reinwardt</div>
+                        <div class="destination-location">📍 Kebun Raya Bogor</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Rate Section -->
+        <div class="section" id="rate">
+            <div class="rating-container">
+                <h2>Rate Your Experience</h2>
+                <p style="color: #666; margin-bottom: 20px;">Bagaimana pengalaman Anda menggunakan Step Around Bogor?</p>
+                
+                <div class="stars" id="starRating">
+                    <span class="star" onclick="setRating(1)">★</span>
+                    <span class="star" onclick="setRating(2)">★</span>
+                    <span class="star" onclick="setRating(3)">★</span>
+                    <span class="star" onclick="setRating(4)">★</span>
+                    <span class="star" onclick="setRating(5)">★</span>
+                </div>
+
+                <textarea class="rating-textarea" placeholder="Tulis ulasan Anda di sini... (opsional)" rows="4"></textarea>
+                
+                <button class="submit-rating" onclick="submitRating()">Submit Rating</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AR Button -->
+    <div class="ar-button" onclick="goToAR()">📷</div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="showSection('home', this)">
+            <span>🏠</span>
+            <span>Home</span>
+        </button>
+        <button class="nav-item" onclick="showSection('maps', this)">
+            <span>🗺️</span>
+            <span>Maps</span>
+        </button>
+        <button class="nav-item" onclick="showSection('destinations', this)">
+            <span>🌿</span>
+            <span>Destinations</span>
+        </button>
+        <button class="nav-item" onclick="showSection('rate', this)">
+            <span>⭐</span>
+            <span>Rate</span>
+        </button>
+    </div>
+
+                <!-- <div class="preview-card">
+                <div class="about-section">
+                    <h3 class="about-title">👥 Tentang Kami</h3>
+                    <p class="about-text">
+                        Aplikasi ini dikembangkan oleh <strong>ARventure</strong><br>
+                        sebagai proyek Tugas Akhir Mata Kuliah Teknologi Virtual/Augmented Reality<br>
+                        <span class="university">Institut Teknologi PLN</span>
+                    </p>
+                    <div class="team-members">
+                        <p>Tim Pengembang:</p>
+                        <ul>
+                            <li>Fadhila Khoirun Nisa' - Project Manager (202331220)</li>
+                            <li>Cincin Asriwana Permata - AR Developer (202331199)</li>
+                            <li>Shafa Nabila Az Zahra - AR Developer 2 (202331228)</li>
+                            <li>Uswatun Hasanah Hamado - Video Documentation (202331232)</li>
+                            <li>Wahda Nia Yusrah Haltajmi - UI/UX Designer (202331245)</li>
+                        </ul>
+                    </div>
+                </div> -->
+                
+                <div class="copyright">
+                    <p>&copy; 2026 Step Around Bogor</p>
+                    <p>ARventure - All Rights Reserved</p>
+                </div>
+            </div>
+
+    <script>
+        let currentRating = 0;
+
+        function showSection(sectionName, element) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+
+            // Show selected section
+            const selectedSection = document.getElementById(sectionName);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+            }
+
+            // Update tab buttons
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            if (element) {
+                element.classList.add('active');
+            }
+
+            // Update bottom nav
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            if (element) {
+                element.classList.add('active');
+            }
+        }
+
+        function goToAR() {
+            window.location.href = 'ar.html';
+        }
+
+        function goToDestination(destinationId) {
+            // Redirect ke halaman detail destinasi
+            window.location.href = 'destination-detail.html?id=' + destinationId;
+        }
+
+        function setRating(rating) {
+            currentRating = rating;
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function submitRating() {
+            const review = document.querySelector('.rating-textarea').value;
+            if (currentRating === 0) {
+                alert('Silakan pilih rating terlebih dahulu!');
+                return;
+            }
+            alert(`Terima kasih! Rating: ${currentRating} ⭐\nUlasan: ${review || 'Tidak ada ulasan'}`);
+            currentRating = 0;
+            setRating(0);
+            document.querySelector('.rating-textarea').value = '';
+        }
+    </script>
+</body>
+</html>
