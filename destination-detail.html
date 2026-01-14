@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Destinasi - Step Around Bogor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .detail-header {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .header-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .back-button {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        .destination-title {
+            color: white;
+        }
+
+        .destination-title h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .destination-title p {
+            font-size: 14px;
+            opacity: 0.95;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, #ff8c00, #ff6600);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+        }
+
+        .action-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
+        }
+
+        .action-btn.secondary {
+            background: #f0f0f0;
+            color: #2d5a27;
+        }
+
+        .action-btn.secondary:hover {
+            background: #e0e0e0;
+        }
+
+        /* Content */
+        .content {
+            padding: 20px;
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d5a27;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .description-text {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.8;
+            text-align: justify;
+            white-space: pre-line; /* Ini yang penting untuk paragraf terpisah */
+        }
+        
+        .description-text p {
+            margin-bottom: 16px;
+        }
+        
+        .description-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Image Gallery - Swipeable Carousel */
+        .gallery-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            background: #f0f0f0;
+        }
+
+        .gallery-wrapper {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+
+        .gallery-wrapper::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        .gallery-slide {
+            min-width: 100%;
+            scroll-snap-align: start;
+            position: relative;
+            aspect-ratio: 4/3;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        /* Gallery Navigation Arrows */
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 10;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .gallery-nav:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .gallery-nav:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .gallery-nav.prev {
+            left: 15px;
+        }
+
+        .gallery-nav.next {
+            right: 15px;
+        }
+
+        /* Gallery Indicators/Dots */
+        .gallery-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 15px 0;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .indicator-dot.active {
+            background: #2d5a27;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Gallery Counter */
+        .gallery-counter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 10;
+        }
+
+        /* Touch feedback */
+        .gallery-slide.touching {
+            cursor: grabbing;
+        }
+
+        /* Info Cards */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .info-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: 700;
+            color: #2d5a27;
+        }
+
+        /* Features List */
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border-left: 3px solid #ff8c00;
+        }
+
+        .feature-icon {
+            font-size: 22px;
+        }
+
+        .feature-text {
+            font-size: 13px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        /* Tips Section */
+        .tips-list {
+            list-style: none;
+        }
+
+        .tips-list li {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #fffbf0;
+            border-radius: 10px;
+            border-left: 3px solid #ffa500;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .tips-list li::before {
+            content: "💡 ";
+            margin-right: 8px;
+        }
+
+        /* Fullscreen Image Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10000;
+        }
+
+        /* Bottom CTA */
+        .bottom-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 10px;
+            z-index: 999;
+        }
+
+        .cta-button {
+            flex: 1;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .cta-button.ar {
+            background: linear-gradient(135deg, #2d5a27, #1a3a15);
+            color: white;
+            box-shadow: 0 4px 15px rgba(45, 90, 39, 0.3);
+        }
+
+        .cta-button.ar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 90, 39, 0.4);
+        }
+
+        .cta-button.home {
+            background: #f0f0f0;
+            color: #2d5a27;
+        }
+
+        .cta-button.home:hover {
+            background: #e0e0e0;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        @media (max-width: 480px) {
+            .detail-header {
+                height: 200px;
+            }
+
+            .destination-title h1 {
+                font-size: 24px;
+            }
+
+            .gallery-grid {
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Image -->
+    <div class="detail-header">
+        <img id="headerImage" class="header-image" alt="Destination">
+        <div class="header-overlay">
+            <button class="back-button" onclick="goBack()">←</button>
+            <div class="destination-title">
+                <h1 id="destinationName">Loading...</h1>
+                <p><span>📍</span><span id="destinationLocation">Kebun Raya Bogor</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <button class="action-btn primary" onclick="startAR()">
+            <span>📱</span>
+            <span>AR View</span>
+        </button>
+        <button class="action-btn secondary" onclick="shareDestination()">
+            <span>📤</span>
+            <span>Share</span>
+        </button>
+        <button class="action-btn secondary" onclick="addToFavorite()">
+            <span id="favoriteIcon">🤍</span>
+            <span>Favorite</span>
+        </button>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="loading">
+        <p>Loading destination details...</p>
+    </div>
+
+    <!-- Content Container -->
+    <div id="contentContainer" class="content" style="display: none; padding-bottom: 90px;">
+        
+        <!-- Description -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <span>📖</span>
+                <span>Tentang Destinasi</span>
+            </h2>
+            <p id="destinationDescription" class="description-text"></p>
+        </div>
+
+        <!-- Gallery -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <span>📸</span>
+                <span>Galeri Foto</span>
+            </h2>
+            <div class="gallery-container">
+                <div id="galleryWrapper" class="gallery-wrapper"></div>
+                <button class="gallery-nav prev" onclick="prevSlide()">‹</button>
+                <button class="gallery-nav next" onclick="nextSlide()">›</button>
+                <div class="gallery-counter" id="galleryCounter">1 / 4</div>
+            </div>
+            <div class="gallery-indicators" id="galleryIndicators"></div>
+        </div>
+
+        <!-- Info Cards -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <span>ℹ️</span>
+                <span>Informasi</span>
+            </h2>
+            <div class="info-cards" id="infoCards"></div>
+        </div>
+
+        <!-- Features -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <span>✨</span>
+                <span>Fasilitas & Fitur</span>
+            </h2>
+            <div class="features-list" id="featuresList"></div>
+        </div>
+
+        <!-- Tips -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <span>💡</span>
+                <span>Tips Berkunjung</span>
+            </h2>
+            <ul class="tips-list" id="tipsList"></ul>
+        </div>
+
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="bottom-cta">
+        <button class="cta-button home" onclick="goBack()">
+            <span>🏠</span>
+            <span>Kembali</span>
+        </button>
+        <button class="cta-button ar" onclick="startAR()">
+            <span>📱</span>
+            <span>Mulai AR Experience</span>
+        </button>
+    </div>
+
+    <!-- Fullscreen Image Modal -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <div class="close-modal">×</div>
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <img id="modalImage" class="modal-image" alt="Full Image">
+        </div>
+    </div>
+
+    <script>
+        // Data destinasi
+        const destinationsData = {
+            'taman-meksiko': {
+                name: 'Taman Meksiko',
+                location: 'Kebun Raya Bogor',
+                description: 'Taman Meksiko merupakan salah satu taman tematik yang berada di dalam kawasan Kebun Raya Bogor dan menjadi daya tarik unik karena menghadirkan suasana khas daerah kering dan gurun. Berbeda dari citra Bogor yang dikenal sejuk dan lembap, taman ini justru menampilkan koleksi tanaman yang mampu hidup di lingkungan panas dan minim air. Konsep taman ini terinspirasi dari lanskap Meksiko dan Amerika Tengah, dengan dominasi kaktus, sukulen, agave, dan berbagai tanaman xerofit lainnya.\n\nSaat memasuki Taman Meksiko, pengunjung akan disambut hamparan tanaman berduri dengan bentuk dan ukuran yang beragam, ditata secara artistik di atas lahan terbuka dengan pencahayaan matahari langsung. Penataan lanskapnya dibuat menyerupai habitat aslinya, sehingga memberikan pengalaman visual yang berbeda dibandingkan area lain di Kebun Raya Bogor. Selain sebagai tempat rekreasi, taman ini juga berfungsi sebagai sarana edukasi untuk mengenal adaptasi tanaman terhadap lingkungan ekstrem.\n\nTaman Meksiko sangat populer sebagai lokasi fotografi karena tampilannya yang estetik dan tidak biasa. Jalur pejalan kaki yang tertata rapi memungkinkan pengunjung menikmati koleksi tanaman sambil berjalan santai. Kehadiran papan informasi di beberapa titik juga membantu pengunjung memahami jenis tanaman dan karakteristiknya. Secara keseluruhan, Taman Meksiko menawarkan pengalaman wisata yang unik, edukatif, dan instagramable di tengah hijau dan rindangnya Kebun Raya Bogor.',
+                headerImage: 'assets/image/fotomexico1.jpeg',
+                gallery: [
+                    { src: 'assets/image/fotomexico1.jpeg'},
+                    { src: 'assets/image/fotomexico2.jpeg'},
+                    { src: 'assets/image/fotomexico3.jpeg'},
+                    { src: 'assets/image/fotomexico4.jpeg'}
+                ],
+                info: [
+                    { icon: '⏰', label: 'Jam Buka', value: '08:00 - 16:00' },
+                    { icon: '🎫', label: 'Tiket', value: 'Termasuk' },
+                    { icon: '📍', label: 'Luas Area', value: '~2 Ha' },
+                    { icon: '🌡️', label: 'Suhu', value: '24-28°C' }
+                ],
+                features: [
+                    { icon: '🌵', text: 'Koleksi Kaktus' },
+                    { icon: '📷', text: 'Photo Spot' },
+                    { icon: '🪑', text: 'Area Istirahat' },
+                    { icon: '♿', text: 'Akses Mudah' }
+                ],
+                tips: [
+                    'Kunjungi saat pagi hari untuk pencahayaan foto yang lebih baik',
+                    'Jangan menyentuh kaktus karena memiliki duri yang tajam',
+                    'Pakai topi/sunblock karena area kaktusnya agak panas.',
+                    'Waktu terbaik untuk berkunjung: pagi (08:00-10:00) atau sore (15:00-16:00)'
+                ]
+            },
+            'griya-anggrek': {
+                name: 'Griya Anggrek',
+                location: 'Kebun Raya Bogor',
+                description: 'Griya Anggrek merupakan pusat koleksi dan konservasi anggrek yang berada di kawasan Kebun Raya Bogor. Tempat ini menjadi rumah bagi berbagai jenis anggrek, baik anggrek asli Indonesia maupun anggrek hibrida dari berbagai daerah. Griya Anggrek dirancang sebagai ruang konservasi sekaligus edukasi, sehingga pengunjung tidak hanya menikmati keindahan bunga, tetapi juga memahami nilai ilmiah dan ekologis dari tanaman anggrek. \n\nDi dalam Griya Anggrek, pengunjung dapat melihat anggrek dengan beragam warna, bentuk, dan ukuran yang ditata secara sistematis. Suasana di area ini terasa lebih sejuk dan lembap, sesuai dengan kebutuhan tumbuh anggrek. Beberapa jenis anggrek dipajang di rumah kaca, sementara lainnya diletakkan di area terbuka yang teduh. Penataan ini menciptakan suasana yang tenang dan cocok untuk wisata santai maupun pembelajaran. \n\nGriya Anggrek juga berperan penting dalam upaya pelestarian anggrek langka yang terancam punah. Melalui koleksi dan perawatan yang terkontrol, tempat ini menjadi sarana penelitian dan pengembangan tanaman hias. Bagi pengunjung, Griya Anggrek menawarkan pengalaman wisata yang menenangkan, penuh warna, dan sarat nilai edukatif, terutama bagi pecinta flora dan fotografi alam.',
+                headerImage: 'assets/image/anggrek1.webp',
+                gallery: [
+                    { src: 'assets/image/anggrek1.webp'},
+                    { src: 'assets/image/anggrek2.jpg'},
+                    { src: 'assets/image/anggrek3.webp'},
+                ],
+                info: [
+                    { icon: '⏰', label: 'Jam Buka', value: '08:00 - 16:00' },
+                    { icon: '🎫', label: 'Tiket', value: 'Termasuk' },
+                    { icon: '🌸', label: 'Koleksi', value: '500+ Spesies' },
+                    { icon: '🌡️', label: 'Suhu', value: '22-26°C' }
+                ],
+                features: [
+                    { icon: '🌸', text: 'Anggrek Langka' },
+                    { icon: '📚', text: 'Edukasi' },
+                    { icon: '📷', text: 'Photo Studio' },
+                    { icon: '❄️', text: 'AC Indoor' }
+                ],
+                tips: [
+                    'Bawa kamera dengan lensa makro untuk foto detail bunga',
+                    'Greenhouse ber-AC, jadi cukup nyaman untuk dikunjungi kapan saja',
+                    'Tanyakan pada petugas tentang anggrek yang sedang mekar',
+                    'Jangan sentuh atau petik bunga anggrek'
+                ]
+            },
+            'istana-bogor': {
+                name: 'Istana Bogor',
+                location: 'Kebun Raya Bogor',
+                description: 'Istana Bogor adalah salah satu istana kepresidenan Indonesia yang memiliki nilai sejarah dan arsitektur tinggi. Terletak di dalam kawasan Kebun Raya Bogor, istana ini awalnya dibangun pada masa kolonial Belanda dan hingga kini masih digunakan sebagai kediaman resmi Presiden Republik Indonesia. Keberadaan Istana Bogor menjadikannya simbol penting pemerintahan sekaligus warisan sejarah bangsa. \n\nBangunan Istana Bogor dikenal dengan arsitektur klasik bergaya Eropa yang sederhana namun elegan. Halaman istana sangat luas dan dipenuhi rumput hijau yang terawat, dengan latar belakang pepohonan rindang Kebun Raya Bogor. Salah satu ciri khas istana ini adalah kolam teratai di bagian depan, yang sering menjadi ikon visual dan daya tarik bagi pengunjung yang melihat dari luar area istana. \n\nMeskipun area dalam istana tidak selalu terbuka untuk umum, pengunjung tetap dapat menikmati keindahan bangunan dan suasana sekitarnya dari luar pagar. Lingkungan yang asri dan sejuk menjadikan area sekitar Istana Bogor sebagai salah satu spot favorit untuk berjalan santai dan berfoto. Istana Bogor bukan hanya pusat kegiatan kenegaraan, tetapi juga bagian penting dari lanskap sejarah dan budaya Kota Bogor.',
+                headerImage: 'assets/image/istanabogor1.jpeg',
+                gallery: [
+                    { src: 'assets/image/istanabogor1.jpeg'},
+                    { src: 'assets/image/istanabogor2.jpg'},
+                    { src: 'assets/image/istanabogor3.jpg'},
+                    { src: 'assets/image/istanabogor4.jpeg'}
+                ],
+                info: [
+                    { icon: '⏰', label: 'Viewing', value: '08:00 - 16:00' },
+                    { icon: '📸', label: 'Foto', value: 'Dari Luar' },
+                    { icon: '🦌', label: 'Rusa', value: '30+ Ekor' },
+                    { icon: '🏛️', label: 'Tahun', value: '1744' }
+                ],
+                features: [
+                    { icon: '🏛️', text: 'Arsitektur Klasik' },
+                    { icon: '🦌', text: 'Rusa Taman' },
+                    { icon: '📷', text: 'Photo Spot' },
+                    { icon: '🌳', text: 'Taman Luas' }
+                ],
+                tips: [
+                    'Hanya bisa dilihat dari luar, tidak bisa masuk ke dalam istana',
+                    'Rusa sering terlihat di pagi hari sekitar jam 08:00-10:00',
+                    'Spot foto terbaik dari area pagar depan istana',
+                    'Hormati area pribadi dan jaga jarak dengan rusa'
+                ]
+            },
+            'taman-akuatik': {
+                name: 'Taman Akuatik',
+                location: 'Kebun Raya Bogor',
+                description: 'Taman Akuatik adalah taman tematik di Kebun Raya Bogor yang menampilkan keanekaragaman tanaman air dan ekosistem perairan. Taman ini dirancang untuk memperkenalkan flora yang hidup di lingkungan air, seperti teratai, tanaman rawa, dan berbagai jenis tumbuhan akuatik lainnya. Keberadaan Taman Akuatik menambah kekayaan koleksi tematik di Kebun Raya Bogor dan memberikan pengalaman wisata yang berbeda. \n\nArea Taman Akuatik didominasi oleh kolam-kolam air dengan tanaman yang tumbuh mengapung maupun tertanam di dasar perairan. Suasana di taman ini terasa tenang dan menyegarkan, dengan pantulan cahaya matahari di permukaan air yang menciptakan pemandangan alami dan estetik. Jalur pejalan kaki di sekitar kolam memungkinkan pengunjung menikmati taman dengan aman dan nyaman. \n\nSelain berfungsi sebagai tempat rekreasi, Taman Akuatik juga memiliki nilai edukasi yang tinggi. Pengunjung dapat belajar tentang peran tanaman air dalam menjaga keseimbangan ekosistem, seperti menyaring air dan menjadi habitat bagi organisme kecil. Dengan suasana yang damai dan visual yang menenangkan, Taman Akuatik cocok dikunjungi untuk bersantai, belajar, maupun sekadar menikmati keindahan alam di tengah kota.',
+                headerImage: 'assets/image/fotoakuatik1.jpeg',
+                gallery: [
+                    { src: 'assets/image/fotoakuatik1.jpeg'},
+                    { src: 'assets/image/fotoakuatik2.jpg'},
+                    { src: 'assets/image/fotoakuatik3.jpg'},
+                    { src: 'assets/image/fotoakuatik4.webp'}
+                ],
+                info: [
+                    { icon: '⏰', label: 'Jam Buka', value: '08:00 - 16:00' },
+                    { icon: '🎫', label: 'Tiket', value: 'Termasuk' },
+                    { icon: '🌊', label: 'Kolam', value: '5+ Kolam' },
+                    { icon: '🌺', label: 'Flora', value: 'Air & Semi' }
+                ],
+                features: [
+                    { icon: '🌺', text: 'Teratai & Lotus' },
+                    { icon: '🌉', text: 'Jembatan Kayu' },
+                    { icon: '🪑', text: 'Gazebo' },
+                    { icon: '📷', text: 'Instagramable' }
+                ],
+                tips: [
+                    'Waktu terbaik untuk foto saat teratai mekar (pagi hari)',
+                    'Hati-hati saat melewati jembatan kayu, bisa licin',
+                    'Area teduh, cocok untuk istirahat siang',
+                    'Bawa obat nyamuk jika sensitif terhadap gigitan serangga'
+                ]
+            },
+            'taman-nepenthes': {
+                name: 'Taman Nepenthes',
+                location: 'Kebun Raya Bogor',
+                description: 'Taman Nepenthes merupakan taman tematik yang menampilkan koleksi tanaman kantong semar (Nepenthes), salah satu tumbuhan karnivora khas Indonesia. Taman ini berfungsi sebagai sarana konservasi dan edukasi untuk memperkenalkan keunikan Nepenthes yang mampu hidup di lingkungan miskin nutrisi dengan cara menangkap serangga sebagai sumber makanannya. Keberadaan taman ini menjadi penting karena banyak spesies Nepenthes yang saat ini terancam punah akibat kerusakan habitat alami. \n\nDi Taman Nepenthes, pengunjung dapat melihat berbagai jenis kantong semar dengan bentuk, warna, dan ukuran yang beragam. Tanaman ini ditata di lingkungan yang menyerupai habitat aslinya, yaitu area lembap, teduh, dan kaya unsur air. Kantong semar memiliki struktur unik berupa kantong yang berfungsi sebagai perangkap alami serangga, sehingga sering menjadi daya tarik utama bagi pengunjung, terutama pelajar dan pecinta botani. \n\nSelain sebagai tempat rekreasi, Taman Nepenthes juga memiliki nilai ilmiah yang tinggi. Informasi mengenai jenis-jenis Nepenthes, mekanisme penangkapan mangsa, serta perannya dalam ekosistem disajikan melalui papan edukasi. Dengan suasana yang tenang dan hijau, taman ini memberikan pengalaman wisata alam yang edukatif sekaligus meningkatkan kesadaran akan pentingnya pelestarian flora endemik Indonesia.',
+                headerImage: 'assets/image/nepenthes4.jpeg',
+                gallery: [
+                    { src: 'assets/image/nepenthes4.jpeg'},
+                    { src: 'assets/image/nepenthes2.jpeg'},
+                    { src: 'assets/image/nepenthes3.jpg'},
+                    { src: 'assets/image/nepenthes1.webp'}
+                ],
+                info: [
+                    { icon: '⏰', label: 'Jam Buka', value: '08:00 - 16:00' },
+                    { icon: '🎫', label: 'Tiket', value: 'Termasuk' },
+                    { icon: '🌿', label: 'Spesies', value: '50+ Jenis' },
+                    { icon: '💧', label: 'Kelembaban', value: '70-80%' }
+                ],
+                features: [
+                    { icon: '🌿', text: 'Tanaman Karnivora' },
+                    { icon: '📚', text: 'Edukasi' },
+                    { icon: '🔬', text: 'Riset' },
+                    { icon: '📷', text: 'Foto Unik' }
+                ],
+                tips: [
+                    'Area cukup lembab, bawa tissue atau handuk kecil',
+                    'Jangan sentuh atau merusak kantong semar',
+                    'Gunakan kamera makro untuk detail kantong',
+                    'Tanyakan petugas tentang mekanisme perangkap Nepenthes'
+                ]
+            },
+            'museum-zoologi': {
+                name: 'Museum Zoologi',
+                location: 'Kebun Raya Bogor',
+                description: 'Museum Zoologi merupakan museum ilmiah yang menyimpan dan memamerkan koleksi fauna Indonesia dalam bentuk spesimen awetan. Museum ini berperan sebagai pusat edukasi dan penelitian yang memperkenalkan keanekaragaman hayati Indonesia, khususnya dunia hewan, mulai dari serangga, ikan, reptil, burung, hingga mamalia. Keberadaan Museum Zoologi sangat penting dalam mendokumentasikan kekayaan fauna Nusantara serta sejarah penelitian zoologi di Indonesia.\n\nDi dalam museum, pengunjung dapat melihat berbagai koleksi spesimen yang ditata secara sistematis dan informatif. Salah satu koleksi paling terkenal adalah kerangka paus raksasa yang menjadi ikon Museum Zoologi. Selain itu, terdapat koleksi serangga dalam jumlah besar, termasuk kupu-kupu dan kumbang dari berbagai daerah di Indonesia. Setiap koleksi dilengkapi dengan informasi ilmiah yang membantu pengunjung memahami karakteristik dan klasifikasi hewan.\n\nMuseum Zoologi tidak hanya berfungsi sebagai tempat wisata edukatif, tetapi juga sebagai sarana pembelajaran bagi pelajar, mahasiswa, dan peneliti. Dengan suasana yang tenang dan informatif, museum ini memberikan pengalaman belajar yang mendalam tentang keanekaragaman fauna serta pentingnya konservasi satwa di Indonesia.',
+                headerImage: 'assets/image/zoologi1.jpg',
+                gallery: [
+                    { src: 'assets/image/zoologi1.jpg'},
+                    { src: 'assets/image/zoologi2.jpg'},
+                    { src: 'assets/image/zoologi3.jpeg'},
+                    { src: 'assets/image/zoologi4.jpg'},
+                    { src: 'assets/image/zoologi5.jpg'}
+                ],
+                info: [
+                    { icon: '⏰', label: 'Jam Buka', value: '08:00 - 16:00' },
+                    { icon: '🎫', label: 'Tiket', value: 'Termasuk' },
+                    { icon: '🦴', label: 'Koleksi', value: 'Ribuan Spesimen' },
+                    { icon: '🌡️', label: 'Suhu', value: '24–26°C' }
+                ],
+                features: [
+                    { icon: '🦴', text: 'Spesimen Hewan' },
+                    { icon: '🐋', text: 'Kerangka Paus' },
+                    { icon: '📚', text: 'Edukasi Fauna' },
+                    { icon: '🔬', text: 'Penelitian Zoologi' }
+                ],
+                tips: [
+                    'Luangkan waktu cukup karena koleksi sangat banyak',
+                    'Baca panel informasi untuk memahami tiap spesimen',
+                    'Jaga jarak dan jangan menyentuh koleksi',
+                    'Cocok dikunjungi pagi hari agar lebih nyaman'
+                ]
+            },
+            'taman-soedjana-kassan': {
+                name: 'Taman Soedjana Kassan',
+                location: 'Kebun Raya Bogor',
+                description: 'Taman Soedjana Kassan merupakan salah satu taman tematik di kawasan Kebun Raya Bogor yang didedikasikan sebagai ruang terbuka hijau untuk rekreasi dan refleksi. Taman ini dinamai sebagai bentuk penghormatan terhadap tokoh yang berjasa dalam pengembangan dan pengelolaan kebun raya. Dengan hamparan rumput hijau dan pepohonan rindang, taman ini menawarkan suasana yang tenang dan nyaman bagi pengunjung.\n\nArea Taman Soedjana Kassan didesain terbuka dengan lanskap sederhana namun asri, menjadikannya tempat favorit untuk bersantai, duduk santai, atau sekadar menikmati suasana alam. Pepohonan besar yang menaungi area taman membantu menjaga suhu tetap sejuk, sehingga cocok dikunjungi kapan saja, terutama pada pagi dan sore hari.\n\nSelain sebagai tempat bersantai, Taman Soedjana Kassan juga sering dimanfaatkan sebagai ruang interaksi sosial dan edukasi lingkungan. Suasana yang damai dan tertata rapi membuat taman ini menjadi salah satu titik istirahat ideal setelah menjelajahi area Kebun Raya Bogor yang luas.',
+                headerImage: 'assets/image/soedjanakassan1.jpg',
+                gallery: [
+                    { src: 'assets/image/soedjanakassan1.jpg'},
+                    { src: 'assets/image/soedjanakassan2.jpg'},
+                    { src: 'assets/image/soedjanakassan3.webp'},
+                    { src: 'assets/image/soedjanakassan4.jpg'}
+                ],
+                info: [
+                    { icon: '⏰', label: 'Jam Buka', value: '08:00 - 16:00' },
+                    { icon: '🎫', label: 'Tiket', value: 'Termasuk' },
+                    { icon: '🌳', label: 'Konsep', value: 'Ruang Terbuka Hijau' },
+                    { icon: '🌡️', label: 'Suhu', value: '23–27°C' }
+                ],
+                features: [
+                    { icon: '🌳', text: 'Area Hijau Luas' },
+                    { icon: '🪑', text: 'Tempat Bersantai' },
+                    { icon: '🌿', text: 'Suasana Sejuk' },
+                    { icon: '📷', text: 'Spot Foto Alami' }
+                ],
+                tips: [
+                    'Datang pagi atau sore untuk suasana lebih sejuk',
+                    'Cocok untuk istirahat setelah berjalan jauh',
+                    'Bawa alas duduk jika ingin bersantai lebih lama',
+                    'Tetap jaga kebersihan area taman'
+                ]
+
+            },
+            'tugu-reinwardt': {
+                name: 'Tugu Reinwardt',
+                location: 'Kebun Raya Bogor',
+                description: 'Tugu Reinwardt merupakan monumen bersejarah yang berada di kawasan Kebun Raya Bogor dan didirikan untuk mengenang jasa Caspar Georg Carl Reinwardt, tokoh penting dalam pendirian dan pengembangan Kebun Raya Bogor. Tugu ini menjadi simbol awal mula penelitian botani modern di Indonesia serta kontribusi besar Reinwardt dalam pengembangan ilmu pengetahuan alam.\n\nTugu Reinwardt memiliki bentuk sederhana namun sarat makna sejarah. Letaknya yang berada di tengah kawasan kebun menjadikan monumen ini sebagai titik refleksi bagi pengunjung untuk mengenang perjalanan panjang Kebun Raya Bogor sebagai pusat konservasi dan penelitian botani. Lingkungan di sekitar tugu dipenuhi pepohonan dan taman yang terawat, menciptakan suasana yang tenang dan khidmat.\n\nKeberadaan Tugu Reinwardt menambah nilai historis kawasan Kebun Raya Bogor. Selain menjadi penanda sejarah, tugu ini juga berfungsi sebagai sarana edukasi bagi pengunjung untuk memahami peran tokoh-tokoh ilmuwan dalam pengembangan ilmu botani dan pelestarian keanekaragaman hayati di Indonesia.',
+                headerImage: 'assets/image/reinwardt1.webp',
+                gallery: [
+                    { src: 'assets/image/reinwardt1.webp'},
+                    { src: 'assets/image/reinwardt2.jpg'}
+                ],
+                info: [
+                    { icon: '⏰', label: 'Jam Kunjungan', value: '08:00 - 16:00' },
+                    { icon: '🎫', label: 'Tiket', value: 'Termasuk' },
+                    { icon: '🏛️', label: 'Fungsi', value: 'Monumen Sejarah' },
+                    { icon: '🌡️', label: 'Suhu', value: '23–27°C' }
+                ],
+                features: [
+                    { icon: '🗿', text: 'Monumen Bersejarah' },
+                    { icon: '📜', text: 'Nilai Edukasi' },
+                    { icon: '🌳', text: 'Lingkungan Asri' },
+                    { icon: '📷', text: 'Spot Dokumentasi' }
+                ],
+                tips: [
+                    'Gunakan waktu singkat untuk membaca sejarah tugu',
+                    'Kunjungi pagi hari untuk foto yang lebih terang',
+                    'Hormati area sebagai situs bersejarah',
+                    'Gabungkan kunjungan dengan taman di sekitarnya'
+                ]
+
+            }
+        };
+
+        // Get destination ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const destinationId = urlParams.get('id') || 'taman-meksiko';
+
+        // Load destination data
+        function loadDestination() {
+            const data = destinationsData[destinationId];
+            
+            if (!data) {
+                document.getElementById('loadingState').innerHTML = '<p>Destinasi tidak ditemukan.</p>';
+                return;
+            }
+
+            // Set header
+            document.getElementById('destinationName').textContent = data.name;
+            document.getElementById('destinationLocation').textContent = data.location;
+            document.getElementById('headerImage').src = data.headerImage;
+            document.getElementById('headerImage').onerror = function() {
+                this.style.background = 'linear-gradient(135deg, #2d5a27, #4a7c44)';
+            };
+
+            // Set description - format paragraphs properly
+            const descriptionElement = document.getElementById('destinationDescription');
+            const paragraphs = data.description.split('\n\n');
+            descriptionElement.innerHTML = paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
+
+            // Set gallery - Swipeable Carousel
+            const galleryWrapper = document.getElementById('galleryWrapper');
+            const galleryIndicators = document.getElementById('galleryIndicators');
+            const galleryCounter = document.getElementById('galleryCounter');
+            
+            galleryWrapper.innerHTML = '';
+            galleryIndicators.innerHTML = '';
+            
+            data.gallery.forEach((img, index) => {
+                // Create slide
+                const slide = document.createElement('div');
+                slide.className = 'gallery-slide';
+                slide.innerHTML = `
+                    <img src="${img.src}" 
+                         alt="${img.caption}" 
+                         class="gallery-image" 
+                         onerror="this.style.background='linear-gradient(135deg, #2d5a27, #4a7c44)'"
+                         onclick="openImage('${img.src}')">
+                    
+                `;
+                galleryWrapper.appendChild(slide);
+                
+                // Create indicator dot
+                const dot = document.createElement('div');
+                dot.className = 'indicator-dot' + (index === 0 ? ' active' : '');
+                dot.onclick = () => goToSlide(index);
+                galleryIndicators.appendChild(dot);
+            });
+            
+            // Update counter
+            galleryCounter.textContent = `1 / ${data.gallery.length}`;
+            
+            // Gallery scroll event
+            let scrollTimeout;
+            galleryWrapper.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    updateGalleryIndicators();
+                }, 50);
+            });
+
+            // Set info cards
+            const infoCards = document.getElementById('infoCards');
+            infoCards.innerHTML = '';
+            data.info.forEach(info => {
+                infoCards.innerHTML += `
+                    <div class="info-card">
+                        <div class="info-icon">${info.icon}</div>
+                        <div class="info-label">${info.label}</div>
+                        <div class="info-value">${info.value}</div>
+                    </div>
+                `;
+            });
+
+            // Set features
+            const featuresList = document.getElementById('featuresList');
+            featuresList.innerHTML = '';
+            data.features.forEach(feature => {
+                featuresList.innerHTML += `
+                    <div class="feature-item">
+                        <div class="feature-icon">${feature.icon}</div>
+                        <div class="feature-text">${feature.text}</div>
+                    </div>
+                `;
+            });
+
+            // Set tips
+            const tipsList = document.getElementById('tipsList');
+            tipsList.innerHTML = '';
+            data.tips.forEach(tip => {
+                tipsList.innerHTML += `<li>${tip}</li>`;
+            });
+
+            // Hide loading, show content
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('contentContainer').style.display = 'block';
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function startAR() {
+            window.location.href = 'ar.html';
+        }
+
+        function shareDestination() {
+            const data = destinationsData[destinationId];
+            if (navigator.share) {
+                navigator.share({
+                    title: data.name,
+                    text: data.description,
+                    url: window.location.href
+                }).catch(err => console.log('Error sharing:', err));
+            } else {
+                alert('Share: ' + data.name + '\n' + window.location.href);
+            }
+        }
+
+        function addToFavorite() {
+            const icon = document.getElementById('favoriteIcon');
+            if (icon.textContent === '🤍') {
+                icon.textContent = '❤️';
+                alert('Ditambahkan ke favorite!');
+            } else {
+                icon.textContent = '🤍';
+                alert('Dihapus dari favorite!');
+            }
+        }
+
+        function openImage(src) {
+            document.getElementById('modalImage').src = src;
+            document.getElementById('imageModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').classList.remove('active');
+        }
+
+        // Gallery Navigation Functions
+        let currentSlideIndex = 0;
+
+        function getCurrentSlide() {
+            const wrapper = document.getElementById('galleryWrapper');
+            const slideWidth = wrapper.offsetWidth;
+            const scrollLeft = wrapper.scrollLeft;
+            return Math.round(scrollLeft / slideWidth);
+        }
+
+        function goToSlide(index) {
+            const wrapper = document.getElementById('galleryWrapper');
+            const slideWidth = wrapper.offsetWidth;
+            wrapper.scrollTo({
+                left: slideWidth * index,
+                behavior: 'smooth'
+            });
+            currentSlideIndex = index;
+            updateGalleryIndicators();
+        }
+
+        function nextSlide() {
+            const data = destinationsData[destinationId];
+            const totalSlides = data.gallery.length;
+            const nextIndex = (getCurrentSlide() + 1) % totalSlides;
+            goToSlide(nextIndex);
+        }
+
+        function prevSlide() {
+            const data = destinationsData[destinationId];
+            const totalSlides = data.gallery.length;
+            const currentIndex = getCurrentSlide();
+            const prevIndex = currentIndex === 0 ? totalSlides - 1 : currentIndex - 1;
+            goToSlide(prevIndex);
+        }
+
+        function updateGalleryIndicators() {
+            const currentIndex = getCurrentSlide();
+            const data = destinationsData[destinationId];
+            
+            // Update dots
+            const dots = document.querySelectorAll('.indicator-dot');
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+            
+            // Update counter
+            const counter = document.getElementById('galleryCounter');
+            if (counter) {
+                counter.textContent = `${currentIndex + 1} / ${data.gallery.length}`;
+            }
+        }
+
+        // Keyboard navigation for gallery
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+            }
+        });
+
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        function handleSwipe() {
+            const wrapper = document.getElementById('galleryWrapper');
+            if (!wrapper) return;
+            
+            wrapper.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+
+            wrapper.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleGesture();
+            });
+        }
+
+        function handleGesture() {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swipe left - next slide
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + swipeThreshold) {
+                // Swipe right - prev slide
+                prevSlide();
+            }
+        }
+
+        // Load on page load
+        window.addEventListener('load', () => {
+            loadDestination();
+            handleSwipe();
+        });
+    </script>
+</body>
+</html>
